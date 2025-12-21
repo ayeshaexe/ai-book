@@ -1,0 +1,108 @@
+# Digital Twin Educational Content API Contract
+
+## Chapter Content Endpoint
+
+### GET /api/chapters/{chapterId}
+
+#### Description
+Retrieve educational content for a specific chapter of the Digital Twin module.
+
+#### Path Parameters
+- `chapterId` (string, required): Identifier for the chapter (e.g., "physics-simulation-gazebo", "high-fidelity-unity", "sensor-simulation")
+
+#### Response 200 (application/json)
+```json
+{
+  "id": "physics-simulation-gazebo",
+  "title": "Physics Simulation with Gazebo",
+  "module": "Digital Twin (Gazebo & Unity)",
+  "content": "# Physics Simulation with Gazebo\n\n## Introduction\n...",
+  "learning_objectives": [
+    "Explain digital twin concepts in robotics",
+    "Simulate physics, gravity, and collisions in Gazebo"
+  ],
+  "duration_minutes": 45,
+  "prerequisites": [
+    "Basic understanding of robotics concepts",
+    "Basic Python knowledge"
+  ],
+  "related_chapters": ["high-fidelity-unity", "sensor-simulation"],
+  "last_updated": "2025-12-20T10:00:00Z"
+}
+```
+
+#### Error Responses
+- 404: Chapter not found
+- 500: Internal server error
+
+## Simulation Configuration Endpoint
+
+### POST /api/simulation/configure
+
+#### Description
+Configure simulation parameters for the digital twin environment.
+
+#### Request Body (application/json)
+```json
+{
+  "simulation_type": "gazebo|unity|sensor",
+  "parameters": {
+    "gravity": {
+      "x": 0.0,
+      "y": 0.0,
+      "z": -9.81
+    },
+    "time_step": 0.001,
+    "sensor_noise": true,
+    "render_quality": "high"
+  }
+}
+```
+
+#### Response 200 (application/json)
+```json
+{
+  "status": "configured",
+  "simulation_id": "sim_12345",
+  "parameters_applied": true
+}
+```
+
+#### Error Responses
+- 400: Invalid parameters
+- 500: Configuration failed
+
+## Sensor Data Endpoint
+
+### GET /api/sensors/{sensorType}/data
+
+#### Description
+Retrieve simulated sensor data for educational purposes.
+
+#### Path Parameters
+- `sensorType` (string, required): Type of sensor ("lidar", "depth_camera", "imu")
+
+#### Query Parameters
+- `duration` (integer, optional): Duration in seconds to retrieve data for (default: 10)
+- `format` (string, optional): Output format ("json", "csv", "binary") (default: "json")
+
+#### Response 200 (application/json)
+```json
+{
+  "sensor_type": "lidar",
+  "data": [
+    {
+      "timestamp": "2025-12-20T10:00:01Z",
+      "readings": [1.2, 1.5, 2.1, 0.8, ...],
+      "units": "meters",
+      "confidence": 0.95
+    }
+  ],
+  "sample_rate": 10,
+  "duration_seconds": 10
+}
+```
+
+#### Error Responses
+- 400: Invalid sensor type
+- 500: Sensor simulation error

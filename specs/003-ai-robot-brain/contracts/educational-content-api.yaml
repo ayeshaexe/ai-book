@@ -1,0 +1,167 @@
+# AI-Robot Brain Educational Content API Contract
+
+## Chapter Content Endpoint
+
+### GET /api/chapters/{chapterId}
+
+#### Description
+Retrieve educational content for a specific chapter of the AI-Robot Brain module.
+
+#### Path Parameters
+- `chapterId` (string, required): Identifier for the chapter (e.g., "isaac-sim", "isaac-ros-vslam", "nav2-path-planning")
+
+#### Response 200 (application/json)
+```json
+{
+  "id": "isaac-sim",
+  "title": "Photorealistic Simulation with NVIDIA Isaac Sim",
+  "module": "AI-Robot Brain (NVIDIA Isaac™)",
+  "content": "# Photorealistic Simulation with NVIDIA Isaac Sim\n\n## Introduction\n...",
+  "learning_objectives": [
+    "Understand photorealistic simulation workflows in Isaac Sim",
+    "Generate synthetic data for perception training"
+  ],
+  "duration_minutes": 45,
+  "prerequisites": [
+    "Intermediate robotics knowledge",
+    "Python programming skills"
+  ],
+  "related_chapters": ["isaac-ros-vslam", "nav2-path-planning"],
+  "last_updated": "2025-12-20T10:00:00Z"
+}
+```
+
+#### Error Responses
+- 404: Chapter not found
+- 500: Internal server error
+
+## Isaac Sim Configuration Endpoint
+
+### POST /api/isaac-sim/configure
+
+#### Description
+Configure Isaac Sim parameters for photorealistic simulation.
+
+#### Request Body (application/json)
+```json
+{
+  "simulation_type": "photorealistic|physics|domain_randomization",
+  "parameters": {
+    "lighting_conditions": {
+      "ambient_intensity": 1.0,
+      "directional_light": {
+        "intensity": 2.0,
+        "direction": [0.5, -1.0, -0.3]
+      }
+    },
+    "material_properties": {
+      "reflectance": 0.8,
+      "roughness": 0.2
+    },
+    "domain_randomization": {
+      "enabled": true,
+      "variance_range": 0.1
+    }
+  }
+}
+```
+
+#### Response 200 (application/json)
+```json
+{
+  "status": "configured",
+  "simulation_id": "sim_12345",
+  "parameters_applied": true
+}
+```
+
+#### Error Responses
+- 400: Invalid parameters
+- 500: Configuration failed
+
+## VSLAM Processing Endpoint
+
+### POST /api/vslam/process
+
+#### Description
+Process visual data using Isaac ROS VSLAM pipeline.
+
+#### Request Body (application/json)
+```json
+{
+  "input_data": {
+    "type": "stereo|monocular|rgbd",
+    "camera_config": {
+      "resolution": [640, 480],
+      "fov": 60.0
+    },
+    "image_data": "base64_encoded_image_data"
+  },
+  "algorithm": "rtabmap|orb_slam",
+  "hardware_acceleration": true
+}
+```
+
+#### Response 200 (application/json)
+```json
+{
+  "map": "3d_map_data",
+  "robot_pose": {
+    "position": [x, y, z],
+    "orientation": [qx, qy, qz, qw]
+  },
+  "processing_time_ms": 120,
+  "confidence": 0.95
+}
+```
+
+#### Error Responses
+- 400: Invalid input data format
+- 500: VSLAM processing error
+
+## Nav2 Path Planning Endpoint
+
+### POST /api/nav2/plan-path
+
+#### Description
+Plan navigation path for bipedal humanoid robot using Nav2.
+
+#### Request Body (application/json)
+```json
+{
+  "robot_type": "bipedal",
+  "start_pose": {
+    "position": [x, y, z],
+    "orientation": [qx, qy, qz, qw]
+  },
+  "goal_pose": {
+    "position": [x, y, z],
+    "orientation": [qx, qy, qz, qw]
+  },
+  "map_id": "environment_map_001",
+  "bipedal_constraints": {
+    "step_length_max": 0.5,
+    "step_height_max": 0.2,
+    "support_polygon": "rectangle",
+    "stability_margin": 0.1
+  }
+}
+```
+
+#### Response 200 (application/json)
+```json
+{
+  "path": [
+    {"position": [x, y, z], "orientation": [qx, qy, qz, qw]},
+    ...
+  ],
+  "path_length": 15.5,
+  "estimated_duration": 120,
+  "feasibility": true
+}
+```
+
+#### Error Responses
+- 400: Invalid pose format or constraints
+- 404: Map not found
+- 500: Path planning failed

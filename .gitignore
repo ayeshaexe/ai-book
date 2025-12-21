@@ -1,0 +1,59 @@
+# Dependencies
+node_modules/
+__pycache__/
+*.pyc
+.venv/
+venv/
+.env*
+*.egg-info/
+dist/
+build/
+
+# Docusaurus
+.docusaurus/
+.cache/
+
+# OS generated files
+.DS_Store
+Thumbs.db
+*.tmp
+*.swp
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment variable files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Coverage directory used by tools like istanbul
+coverage/
+.coverage
+
+# Temporary files
+*.bak
+*.tmp
+*~
+
+# Documentation builds
+docs/_build/
+docs/build/
+
+# Python
+.pytest_cache/
+.coverage
+htmlcov/
+.pyre/
+.mypy_cache/

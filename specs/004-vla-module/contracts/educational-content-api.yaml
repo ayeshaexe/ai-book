@@ -1,0 +1,131 @@
+# VLA Module Educational Content API Contract
+
+## Chapter Content Endpoint
+
+### GET /api/chapters/{chapterId}
+
+#### Description
+Retrieve educational content for a specific chapter of the VLA module.
+
+#### Path Parameters
+- `chapterId` (string, required): Identifier for the chapter (e.g., "voice-to-action", "cognitive-planning", "capstone")
+
+#### Response 200 (application/json)
+```json
+{
+  "id": "voice-to-action",
+  "title": "Voice-to-Action with Whisper",
+  "module": "Vision-Language-Action (VLA)",
+  "content": "# Voice-to-Action with Whisper\\n\\n## Introduction\\n...",
+  "learning_objectives": [
+    "Understand Whisper integration for voice recognition",
+    "Implement voice command to ROS 2 action mapping"
+  ],
+  "duration_minutes": 45,
+  "prerequisites": [
+    "Intermediate robotics knowledge",
+    "Python programming skills"
+  ],
+  "related_chapters": ["cognitive-planning", "capstone"],
+  "last_updated": "2025-12-20T10:00:00Z"
+}
+```
+
+#### Error Responses
+- 404: Chapter not found
+- 500: Internal server error
+
+## Voice Command Processing Endpoint
+
+### POST /api/vla/process-voice-command
+
+#### Description
+Process a voice command through Whisper and generate appropriate actions.
+
+#### Request Body (application/json)
+```json
+{
+  "audio_data": "base64_encoded_audio",
+  "robot_type": "humanoid",
+  "command_context": {
+    "environment": "indoor",
+    "robot_capabilities": ["navigation", "manipulation", "perception"]
+  }
+}
+```
+
+#### Response 200 (application/json)
+```json
+{
+  "transcription": "Please go to the kitchen and bring me the blue cup",
+  "confidence": 0.92,
+  "intent": "fetch_object",
+  "parameters": {
+    "destination": "kitchen",
+    "object": "blue cup",
+    "action": "fetch"
+  },
+  "processing_time_ms": 850
+}
+```
+
+#### Error Responses
+- 400: Invalid audio format or processing error
+- 500: Voice processing failed
+
+## Cognitive Planning Endpoint
+
+### POST /api/vla/generate-plan
+
+#### Description
+Generate a sequence of actions from natural language using LLMs.
+
+#### Request Body (application/json)
+```json
+{
+  "natural_language_command": "Go to the kitchen and bring me the blue cup",
+  "robot_capabilities": ["navigation", "manipulation", "perception"],
+  "environment_context": {
+    "object_locations": [
+      {"name": "blue cup", "location": "kitchen counter"},
+      {"name": "kitchen", "position": {"x": 5.0, "y": 3.0, "z": 0.0}}
+    ],
+    "robot_start_position": {"x": 0.0, "y": 0.0, "z": 0.0}
+  }
+}
+```
+
+#### Response 200 (application/json)
+```json
+{
+  "plan_id": "plan_12345",
+  "action_sequence": [
+    {
+      "action_type": "navigate",
+      "target": {"x": 5.0, "y": 3.0, "z": 0.0},
+      "description": "Navigate to kitchen"
+    },
+    {
+      "action_type": "perceive",
+      "target_object": "blue cup",
+      "description": "Locate blue cup on counter"
+    },
+    {
+      "action_type": "manipulate",
+      "target_object": "blue cup",
+      "description": "Grasp blue cup"
+    },
+    {
+      "action_type": "navigate",
+      "target": {"x": 0.0, "y": 0.0, "z": 0.0},
+      "description": "Return to user location"
+    }
+  ],
+  "estimated_duration": 180,
+  "safety_validation": true
+}
+```
+
+#### Error Responses
+- 400: Invalid command format or impossible plan
+- 500: Planning generation failed
