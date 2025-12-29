@@ -1,9 +1,12 @@
 <!-- SYNC IMPACT REPORT
-Version change: N/A -> 1.0.0
-Modified principles: N/A (new constitution)
-Added sections: Core Principles for Physical AI & Humanoid Robotics textbook
+Version change: 1.0.0 -> 1.0.1
+Modified principles: N/A
+Added sections: Integrated RAG Chatbot Requirements
 Removed sections: N/A
-Templates requiring updates: N/A
+Templates requiring updates:
+  - .specify/templates/plan-template.md ⚠ pending
+  - .specify/templates/spec-template.md ⚠ pending
+  - .specify/templates/tasks-template.md ⚠ pending
 Follow-up TODOs: None
 -->
 # Textbook for Teaching Physical AI & Humanoid Robotics Course Constitution
@@ -42,4 +45,22 @@ The project will be successful if it produces accurate, high-quality technical c
 
 ## Governance
 
-This constitution governs all aspects of the textbook development process. All contributors must adhere to these principles when creating content. Any deviations must be documented and justified. Amendments to this constitution require explicit approval from project leadership and must be recorded with version tracking. All reviews must verify compliance with these principles. Version: 1.0.0 | Ratified: 2025-12-20 | Last Amended: 2025-12-20
+This constitution governs all aspects of the textbook development process. All contributors must adhere to these principles when creating content. Any deviations must be documented and justified. Amendments to this constitution require explicit approval from project leadership and must be recorded with version tracking. All reviews must verify compliance with these principles. Version: 1.0.0 | Ratified: 2025-12-20 | Last Amended: 2025-12-21
+
+## Integrated RAG Chatbot Requirements
+
+### Purpose
+- Describe an integrated Retrieval-Augmented Generation (RAG) chatbot embedded within the published book.
+- The chatbot must answer user questions strictly based on the book's content.
+- It must support answering questions using only user-selected text when provided.
+
+### Technologies
+- OpenAI Agents / ChatKit SDKs for conversational logic
+- FastAPI for backend API services
+- Neon Serverless Postgres for structured metadata and session storage
+- Qdrant Cloud (Free Tier) for vector storage and semantic retrieval
+
+### Behavioral Rules
+- The chatbot must not hallucinate or answer beyond available book content.
+- All answers must be grounded in retrieved passages.
+- When user-selected text is provided, responses must rely exclusively on that text for generating answers.
