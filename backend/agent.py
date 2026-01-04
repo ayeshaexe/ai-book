@@ -148,9 +148,7 @@ class RAGAgent:
         self.agent = Agent(
             name="BookRAGAgent",
             instructions=(
-               "Answer questions using ONLY the retrieved book content. "
-               "You MUST always call retrieve_book_content before answering. "
-
+                "Answer the question 
                "If relevant information is found, answer strictly from that content. "
 
                "If retrieve_book_content fails due to an error (e.g., rate limit 429) "
