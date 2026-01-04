@@ -148,10 +148,21 @@ class RAGAgent:
         self.agent = Agent(
             name="BookRAGAgent",
             instructions=(
-                "Answer questions using ONLY the retrieved book content. "
-                "Always call retrieve_book_content before answering. "
-                "If the answer is not found, reply: 'Not found in the book.' "
-                "Do not hallucinate."
+               "Answer questions using ONLY the retrieved book content. "
+               "You MUST always call retrieve_book_content before answering. "
+
+               "If relevant information is found, answer strictly from that content. "
+
+               "If retrieve_book_content fails due to an error (e.g., rate limit 429) "
+               "AND the question is clearly similar to the book's main topics, "
+               "you may provide a best-effort answer based on general understanding "
+               "of the book, but you MUST clearly prefix the answer with: "
+               "'[Inferred due to retrieval error]'. "
+
+               "If the answer is not found and cannot be reasonably inferred, reply exactly: "
+               "'Not found in the book.' "
+
+               "Never hallucinate specific facts, quotes, page numbers, or details."
             ),
             tools=[retrieve_book_content],
             model=model,
